@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { GlobalStyles } from '../../constants/styles';
 import ExpensesList from './ExpensesList';
 import ExpensesSummary from './ExpensesSummary';
 
@@ -28,11 +29,59 @@ const DUMMY_EXPENSES = [
     amount: 16.4,
     date: new Date('2024-12-19'),
   },
+  {
+    id: 'e5',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
+  {
+    id: 'e6',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
+  {
+    id: 'e7',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
+  {
+    id: 'e8',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
+  {
+    id: 'e9',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
+  {
+    id: 'e10',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
+  {
+    id: 'e11',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
+  {
+    id: 'e12',
+    description: 'A Shirt',
+    amount: 16.4,
+    date: new Date('2024-12-19'),
+  },
 ];
 
 const ExpensesOutput = ({ expenses, expensesPeriod }) => {
   return (
-    <View>
+    <View style={styles.container}>
       <ExpensesSummary expenses={DUMMY_EXPENSES} periodName={expensesPeriod} />
       <ExpensesList expenses={DUMMY_EXPENSES} />
     </View>
@@ -41,4 +90,10 @@ const ExpensesOutput = ({ expenses, expensesPeriod }) => {
 
 export default ExpensesOutput;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: GlobalStyles.colors.primary700,
+  },
+});
