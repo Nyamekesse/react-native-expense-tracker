@@ -42,7 +42,7 @@ const ManageExpense = ({ route, navigation }) => {
       <ExpenseForm
         onCancel={CancelHandler}
         onSubmit={ConfirmHandler}
-        defaultValue={selectedExpense}
+        defaultValues={selectedExpense}
         submitButtonLabel={isEditing ? 'Update' : 'Add'}
       />
 
