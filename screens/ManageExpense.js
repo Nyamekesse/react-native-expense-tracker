@@ -1,7 +1,8 @@
-import React, { useContext, useLayoutEffect } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ExpenseForm from '../components/ManageExpense/ExpenseForm';
 import IconButton from '../components/UI/IconButton';
+import LoadingOverlay from '../components/UI/LoadingOverlay';
 import { GlobalStyles } from '../constants/styles';
 import { ExpensesContext } from '../store/expenses-context';
 import {
@@ -11,6 +12,7 @@ import {
 } from '../util/http';
 
 const ManageExpense = ({ route, navigation }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { expenses, addExpense, deleteExpense, updateExpense } =
     useContext(ExpensesContext);
   const editedExpenseId = route.params?.expenseId;
@@ -27,6 +29,7 @@ const ManageExpense = ({ route, navigation }) => {
   }, [editedExpenseId, navigation]);
 
   async function deleteExpenseHandler() {
+    setIsSubmitting(true);
     await deleteCloudExpense(editedExpenseId);
     deleteExpense(editedExpenseId);
     navigation.goBack();
@@ -35,6 +38,7 @@ const ManageExpense = ({ route, navigation }) => {
     navigation.goBack();
   }
   async function ConfirmHandler(expenseData) {
+    setIsSubmitting(true);
     if (isEditing) {
       await updateCloudExpense(editedExpenseId, expenseData);
       updateExpense(editedExpenseId, expenseData);
@@ -43,6 +47,10 @@ const ManageExpense = ({ route, navigation }) => {
       addExpense({ ...expenseData, id: id });
     }
     navigation.goBack();
+  }
+
+  if (isSubmitting) {
+    return <LoadingOverlay />;
   }
 
   return (
