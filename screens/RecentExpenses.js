@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import ExpensesOutput from '../components/ExpensesOutput/ExpensesOutput';
+import ErrorOverlay from '../components/UI/ErrorOverlay';
 import LoadingOverlay from '../components/UI/LoadingOverlay';
 import { ExpensesContext } from '../store/expenses-context';
 import { getDateMinusDays } from '../util/date';
@@ -9,12 +10,17 @@ import { fetchExpenses } from '../util/http';
 const RecentExpenses = () => {
   const { expenses, setExpenses } = useContext(ExpensesContext);
   const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState();
   useEffect(() => {
     async function getExpenses() {
       setIsFetching(true);
-      const expenses = await fetchExpenses();
+      try {
+        const expenses = await fetchExpenses();
+        setExpenses(expenses);
+      } catch (error) {
+        setError('Could not fetch expenses!');
+      }
       setIsFetching(false);
-      setExpenses(expenses);
     }
 
     getExpenses();
@@ -26,9 +32,10 @@ const RecentExpenses = () => {
     return expense.date >= date7DaysAgo && expense.date <= today;
   });
 
-  if (isFetching) {
-    return <LoadingOverlay />;
-  }
+  if (error && !isFetching) return <ErrorOverlay message={error} />;
+
+  if (isFetching) return <LoadingOverlay />;
+
   return (
     <ExpensesOutput
       expenses={recentExpenses}
